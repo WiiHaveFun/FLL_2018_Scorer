@@ -8,7 +8,18 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class ScoringViewController: UIViewController {
+    
+    var round = Round()
+    
+    //Constants for UILabels
+    let labelFontSize = 30.0
+    
+    //Initializing Mission UI
+    
+    //M01 Space Travel
+    let mi01Title = UILabel(frame: CGRect(x: 10.0, y: 0, width: 748.0, height: 36.0))
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
