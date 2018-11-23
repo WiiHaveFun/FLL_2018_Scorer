@@ -31,10 +31,11 @@ class ScoringViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        scrollView.contentSize = view.frame.size
+        scrollView.contentSize = CGSize(width: 768, height: 2000)
         // Do any additional setup after loading the view, typically from a nib.
         initM01()
         initM02()
+        initM03()
     }
     
     /*Initializing Mission UI*/
@@ -198,7 +199,7 @@ class ScoringViewController: UIViewController {
      */
     func initM02() {
         //Inits Label UI
-        mi02Title = UILabel(frame: CGRect(x: labelX, y: 470, width: labelWidth, height: labelHeight))
+        mi02Title = UILabel(frame: CGRect(x: labelX, y: 470.0, width: labelWidth, height: labelHeight))
         mi02Title.text = "M02 - Solar Panel Array"
         mi02Title.font = mi02Title.font.withSize(CGFloat(labelFontSize))
         scrollView.addSubview(mi02Title)
@@ -234,7 +235,6 @@ class ScoringViewController: UIViewController {
         //Adds seg control to outlet
         mi02SegControls.append(mi02_01Seg)
         
-        //Inits Text UI
         mi02_02Text = UITextView(frame: CGRect(x: labelX, y: 640.0, width: labelWidth, height: textHeight))
         mi02_02Text.text = "Your Solar Panel is angled toward the other team’s Field"
         mi02_02Text.font = UIFont.systemFont(ofSize: 20.0)
@@ -247,7 +247,6 @@ class ScoringViewController: UIViewController {
         let topTextConstraint02 = NSLayoutConstraint(item: mi02_02Text, attribute: .top, relatedBy: .equal, toItem: mi02_01Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
         view.addConstraints([leadingTextConstraint02, trailingTextConstraint02, topTextConstraint02])
         
-        //Inits SegControls UI
         mi02_02Seg = UISegmentedControl(items: ["No", "Yes"])
         mi02_02Seg.frame = CGRect(x: segX, y: 720.0, width: segWidth, height: segHeight)
         mi02_02Seg.selectedSegmentIndex = 0
@@ -293,6 +292,119 @@ class ScoringViewController: UIViewController {
             }
             
             mi02Score.text = "Score: \(round.M02_01Score + round.M02_02Score)"
+            totalScore.text = "Score: \(round.getTotalScore())"
+        }
+    }
+    
+    //M03 Space Travel
+    var mi03Title: UILabel!
+    var mi03_01Text: UITextView!
+    var mi03_01Seg: UISegmentedControl!
+    var mi03_02Text: UITextView!
+    var mi03_02Seg: UISegmentedControl!
+    var mi03Score: UILabel!
+    
+    /**
+     Initializes the second mission's UI
+     Each "paragraph is for an individual UI.
+     UI declared above
+     */
+    func initM03() {
+        //Inits Label UI
+        mi03Title = UILabel(frame: CGRect(x: labelX, y: 820.0, width: labelWidth, height: labelHeight))
+        mi03Title.text = "M03 - 3D Printing"
+        mi03Title.font = mi03Title.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi03Title)
+        //Constraints
+        let leadingTitleConstraint = NSLayoutConstraint(item: mi03Title, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTitleConstraint = NSLayoutConstraint(item: mi03Title, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTitleConstraint = NSLayoutConstraint(item: mi03Title, attribute: .top, relatedBy: .equal, toItem: mi02Score, attribute: .bottom, multiplier: 1.0, constant: 20.0)
+        view.addConstraints([leadingTitleConstraint, trailingTitleConstraint, topTitleConstraint])
+        
+        //Inits Text UI
+        mi03_01Text = UITextView(frame: CGRect(x: labelX, y: 870.0, width: labelWidth, height: textHeight))
+        mi03_01Text.text = "2x4 Brick is ejected (due only to a Regolith Core Sample in the 3D Printer)"
+        mi03_01Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi03_01Text.isScrollEnabled = false
+        mi03_01Text.isEditable = false
+        mi03_01Text.isSelectable = false
+        scrollView.addSubview(mi03_01Text)
+        let leadingTextConstraint01 = NSLayoutConstraint(item: mi03_01Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint01 = NSLayoutConstraint(item: mi03_01Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint01 = NSLayoutConstraint(item: mi03_01Text, attribute: .top, relatedBy: .equal, toItem: mi03Title, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint01, trailingTextConstraint01, topTextConstraint01])
+        
+        //Inits SegControls UI
+        mi03_01Seg = UISegmentedControl(items: ["No", "Yes"])
+        mi03_01Seg.frame = CGRect(x: segX, y: 950.0, width: segWidth, height: segHeight)
+        mi03_01Seg.selectedSegmentIndex = 0
+        mi03_01Seg.addTarget(self, action: #selector(mi03SegAction), for: .valueChanged)
+        scrollView.addSubview(mi03_01Seg)
+        let leadingSegConstraint01 = NSLayoutConstraint(item: mi03_01Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint01 = NSLayoutConstraint(item: mi03_01Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint01 = NSLayoutConstraint(item: mi03_01Seg, attribute: .top, relatedBy: .equal, toItem: mi03_01Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint01, trailingSegConstraint01, topSegConstraint01])
+        //Adds seg control to outlet
+        mi03SegControls.append(mi03_01Seg)
+        
+        mi03_02Text = UITextView(frame: CGRect(x: labelX, y: 990.0, width: labelWidth, height: textHeight))
+        mi03_02Text.text = "2x4 Brick is completely in Northeast Planet Area"
+        mi03_02Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi03_02Text.isScrollEnabled = false
+        mi03_02Text.isEditable = false
+        mi03_02Text.isSelectable = false
+        scrollView.addSubview(mi03_02Text)
+        let leadingTextConstraint02 = NSLayoutConstraint(item: mi03_02Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint02 = NSLayoutConstraint(item: mi03_02Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint02 = NSLayoutConstraint(item: mi03_02Text, attribute: .top, relatedBy: .equal, toItem: mi03_01Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint02, trailingTextConstraint02, topTextConstraint02])
+        
+        mi03_02Seg = UISegmentedControl(items: ["No", "Yes"])
+        mi03_02Seg.frame = CGRect(x: segX, y: 1070.0, width: segWidth, height: segHeight)
+        mi03_02Seg.selectedSegmentIndex = 0
+        mi03_02Seg.addTarget(self, action: #selector(mi03SegAction), for: .valueChanged)
+        scrollView.addSubview(mi03_02Seg)
+        let leadingSegConstraint02 = NSLayoutConstraint(item: mi03_02Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint02 = NSLayoutConstraint(item: mi03_02Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint02 = NSLayoutConstraint(item: mi03_02Seg, attribute: .top, relatedBy: .equal, toItem: mi03_02Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint02, trailingSegConstraint02, topSegConstraint02])
+        //Adds seg control to outlet
+        mi03SegControls.append(mi03_02Seg)
+        
+        //Inits Label UI for score
+        mi03Score = UILabel(frame: CGRect(x: labelX, y: 1110.0, width: labelWidth, height: labelHeight))
+        mi03Score.text = "Score: 0"
+        mi03Score.font = mi03Score.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi03Score)
+        //Constraints
+        let leadingScoreConstraint = NSLayoutConstraint(item: mi03Score, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingScoreConstraint = NSLayoutConstraint(item: mi03Score, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topScoreConstraint = NSLayoutConstraint(item: mi03Score, attribute: .top, relatedBy: .equal, toItem: mi03_02Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingScoreConstraint, trailingScoreConstraint, topScoreConstraint])
+    }
+    
+    //Mission 03 Outlet
+    var mi03SegControls: [UISegmentedControl] = []
+    
+    //Mission 03 Action
+    @objc func mi03SegAction(sender: UISegmentedControl) {
+        if let indexOfControl = mi03SegControls.index(of: sender) {
+            if (indexOfControl == 0) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.isM03_01Done = true
+                    mi03_02Seg.selectedSegmentIndex = 0
+                } else {
+                    round.isM03_01Done = false
+                }
+            } else if (indexOfControl == 1) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.isM03_02Done = true
+                    mi03_01Seg.selectedSegmentIndex = 0
+                } else {
+                }
+            }
+            
+            mi03Score.text = "Score: \(round.M03_01Score + round.M03_02Score)"
             totalScore.text = "Score: \(round.getTotalScore())"
         }
     }
