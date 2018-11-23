@@ -80,8 +80,13 @@ struct Round {
     var isM03_01Done = false {
         didSet {
             if isM03_01Done == true {
+                if isM03_02Done == false {
                 M03_01Score = constants.M03_01Score
                 isM03_02Done = false
+                } else if isM03_02Done == true {
+                    M03_02Score = constants.M03_02Score
+                    M03_01Score = 0
+                }
             } else {
                 M03_01Score = 0
             }
@@ -89,9 +94,12 @@ struct Round {
     }
     var isM03_02Done = false {
         didSet {
-            if isM03_02Done == true {
+            if (isM03_02Done == true) && (isM03_01Done == true) {
                 M03_02Score = constants.M03_02Score
-                isM03_01Done = false
+                M03_01Score = 0
+            } else if isM03_01Done == true {
+                M03_01Score = constants.M03_01Score
+                M03_02Score = 0
             } else {
                 M03_02Score = 0
             }
@@ -101,7 +109,28 @@ struct Round {
     var M03_02Score = 0
     
     //M04 - Crater Crossing
-    var isM04_01Done = false
+    var isM04_01Done = false {
+        didSet {
+            if isM04_01Done == true {
+                if isM04_02Done == true {
+                    M04_01Score = constants.M04_01Score
+                }
+            } else {
+                M04_01Score = 0
+            }
+        }
+    }
+    var isM04_02Done = false {
+        didSet {
+            if isM04_02Done == true {
+                if isM04_01Done == true {
+                    M04_01Score = constants.M04_01Score
+                }
+            } else {
+                M04_01Score = 0
+            }
+        }
+    }
     var M04_01Score = 0
     
     //M05 - Extraction
@@ -196,7 +225,9 @@ struct Constants {
     let M02_01Score = 22
     let M02_02Score = 18
     
-    let M03_01Score = 22
-    let M03_02Score = 18
+    let M03_01Score = 18
+    let M03_02Score = 22
+    
+    let M04_01Score = 20
 }
 

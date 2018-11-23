@@ -36,6 +36,7 @@ class ScoringViewController: UIViewController {
         initM01()
         initM02()
         initM03()
+        initM04()
     }
     
     /*Initializing Mission UI*/
@@ -392,15 +393,16 @@ class ScoringViewController: UIViewController {
             if (indexOfControl == 0) {
                 if (sender.selectedSegmentIndex == 1) {
                     round.isM03_01Done = true
-                    mi03_02Seg.selectedSegmentIndex = 0
                 } else {
                     round.isM03_01Done = false
+                    round.isM03_02Done = false
+                    mi03_02Seg.selectedSegmentIndex = 0
                 }
             } else if (indexOfControl == 1) {
                 if (sender.selectedSegmentIndex == 1) {
                     round.isM03_02Done = true
-                    mi03_01Seg.selectedSegmentIndex = 0
                 } else {
+                    round.isM03_02Done = false
                 }
             }
             
@@ -409,5 +411,116 @@ class ScoringViewController: UIViewController {
         }
     }
 
+    //M04 Crater Crossing
+    var mi04Title: UILabel!
+    var mi04_01Text: UITextView!
+    var mi04_01Seg: UISegmentedControl!
+    var mi04_02Text: UITextView!
+    var mi04_02Seg: UISegmentedControl!
+    var mi04Score: UILabel!
+    
+    /**
+     Initializes the second mission's UI
+     Each "paragraph is for an individual UI.
+     UI declared above
+     */
+    func initM04() {
+        //Inits Label UI
+        mi04Title = UILabel(frame: CGRect(x: labelX, y: 1170.0, width: labelWidth, height: labelHeight))
+        mi04Title.text = "M04 - Crater Crossing"
+        mi04Title.font = mi04Title.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi04Title)
+        //Constraints
+        let leadingTitleConstraint = NSLayoutConstraint(item: mi04Title, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTitleConstraint = NSLayoutConstraint(item: mi04Title, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTitleConstraint = NSLayoutConstraint(item: mi04Title, attribute: .top, relatedBy: .equal, toItem: mi03Score, attribute: .bottom, multiplier: 1.0, constant: 20.0)
+        view.addConstraints([leadingTitleConstraint, trailingTitleConstraint, topTitleConstraint])
+        
+        //Inits Text UI
+        mi04_01Text = UITextView(frame: CGRect(x: labelX, y: 1220.0, width: labelWidth, height: textHeight))
+        mi04_01Text.text = "All weight-bearing features of crossing equipment crossed completely between towers"
+        mi04_01Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi04_01Text.isScrollEnabled = false
+        mi04_01Text.isEditable = false
+        mi04_01Text.isSelectable = false
+        scrollView.addSubview(mi04_01Text)
+        let leadingTextConstraint01 = NSLayoutConstraint(item: mi04_01Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint01 = NSLayoutConstraint(item: mi04_01Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint01 = NSLayoutConstraint(item: mi04_01Text, attribute: .top, relatedBy: .equal, toItem: mi04Title, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint01, trailingTextConstraint01, topTextConstraint01])
+        
+        //Inits SegControls UI
+        mi04_01Seg = UISegmentedControl(items: ["No", "Yes"])
+        mi04_01Seg.frame = CGRect(x: segX, y: 1300.0, width: segWidth, height: segHeight)
+        mi04_01Seg.selectedSegmentIndex = 0
+        mi04_01Seg.addTarget(self, action: #selector(mi04SegAction), for: .valueChanged)
+        scrollView.addSubview(mi04_01Seg)
+        let leadingSegConstraint01 = NSLayoutConstraint(item: mi04_01Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint01 = NSLayoutConstraint(item: mi04_01Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint01 = NSLayoutConstraint(item: mi04_01Seg, attribute: .top, relatedBy: .equal, toItem: mi04_01Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint01, trailingSegConstraint01, topSegConstraint01])
+        //Adds seg control to outlet
+        mi04SegControls.append(mi04_01Seg)
+        
+        mi04_02Text = UITextView(frame: CGRect(x: labelX, y: 1340.0, width: labelWidth, height: textHeight))
+        mi04_02Text.text = "All crossing equipment crossed from east to west, completely past the flattened Gate"
+        mi04_02Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi04_02Text.isScrollEnabled = false
+        mi04_02Text.isEditable = false
+        mi04_02Text.isSelectable = false
+        scrollView.addSubview(mi04_02Text)
+        let leadingTextConstraint02 = NSLayoutConstraint(item: mi04_02Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint02 = NSLayoutConstraint(item: mi04_02Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint02 = NSLayoutConstraint(item: mi04_02Text, attribute: .top, relatedBy: .equal, toItem: mi04_01Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint02, trailingTextConstraint02, topTextConstraint02])
+        
+        mi04_02Seg = UISegmentedControl(items: ["No", "Yes"])
+        mi04_02Seg.frame = CGRect(x: segX, y: 1420.0, width: segWidth, height: segHeight)
+        mi04_02Seg.selectedSegmentIndex = 0
+        mi04_02Seg.addTarget(self, action: #selector(mi04SegAction), for: .valueChanged)
+        scrollView.addSubview(mi04_02Seg)
+        let leadingSegConstraint02 = NSLayoutConstraint(item: mi04_02Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint02 = NSLayoutConstraint(item: mi04_02Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint02 = NSLayoutConstraint(item: mi04_02Seg, attribute: .top, relatedBy: .equal, toItem: mi04_02Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint02, trailingSegConstraint02, topSegConstraint02])
+        //Adds seg control to outlet
+        mi04SegControls.append(mi04_02Seg)
+        
+        //Inits Label UI for score
+        mi04Score = UILabel(frame: CGRect(x: labelX, y: 1460.0, width: labelWidth, height: labelHeight))
+        mi04Score.text = "Score: 0"
+        mi04Score.font = mi04Score.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi04Score)
+        //Constraints
+        let leadingScoreConstraint = NSLayoutConstraint(item: mi04Score, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingScoreConstraint = NSLayoutConstraint(item: mi04Score, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topScoreConstraint = NSLayoutConstraint(item: mi04Score, attribute: .top, relatedBy: .equal, toItem: mi04_02Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingScoreConstraint, trailingScoreConstraint, topScoreConstraint])
+    }
+    
+    //Mission 04 Outlet
+    var mi04SegControls: [UISegmentedControl] = []
+    
+    //Mission 04 Action
+    @objc func mi04SegAction(sender: UISegmentedControl) {
+        if let indexOfControl = mi04SegControls.index(of: sender) {
+            if (indexOfControl == 0) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.isM04_01Done = true
+                } else {
+                    round.isM04_01Done = false
+                }
+            } else if (indexOfControl == 1) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.isM04_02Done = true
+                } else {
+                    round.isM04_02Done = false
+                }
+            }
+            
+            mi04Score.text = "Score: \(round.M04_01Score)"
+            totalScore.text = "Score: \(round.getTotalScore())"
+        }
+    }
 }
 
