@@ -259,6 +259,17 @@ class ScoringViewController: UIViewController {
         view.addConstraints([leadingSegConstraint02, trailingSegConstraint02, topSegConstraint02])
         //Adds seg control to outlet
         mi02SegControls.append(mi02_02Seg)
+        
+        //Inits Label UI for score
+        mi02Score = UILabel(frame: CGRect(x: labelX, y: 760.0, width: labelWidth, height: labelHeight))
+        mi02Score.text = "Score: 0"
+        mi02Score.font = mi02Score.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi02Score)
+        //Constraints
+        let leadingScoreConstraint = NSLayoutConstraint(item: mi02Score, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingScoreConstraint = NSLayoutConstraint(item: mi02Score, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topScoreConstraint = NSLayoutConstraint(item: mi02Score, attribute: .top, relatedBy: .equal, toItem: mi02_02Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingScoreConstraint, trailingScoreConstraint, topScoreConstraint])
     }
     
     //Mission 02 Outlet
@@ -281,7 +292,7 @@ class ScoringViewController: UIViewController {
                 }
             }
             
-            //mi02Score.text = "Score: \(round.M02_01Score + round.M02_02Score)"
+            mi02Score.text = "Score: \(round.M02_01Score + round.M02_02Score)"
             totalScore.text = "Score: \(round.getTotalScore())"
         }
     }
