@@ -29,6 +29,14 @@ class ScoringViewController: UIViewController {
     //Outlet to total score label
     @IBOutlet weak var totalScore: UILabel!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        scrollView.contentSize = view.frame.size
+        // Do any additional setup after loading the view, typically from a nib.
+        initM01()
+        initM02()
+    }
+    
     /*Initializing Mission UI*/
     
     //M01 Space Travel
@@ -40,13 +48,6 @@ class ScoringViewController: UIViewController {
     var mi01_03Text: UITextView!
     var mi01_03Seg: UISegmentedControl!
     var mi01Score: UILabel!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        scrollView.contentSize = view.frame.size
-        // Do any additional setup after loading the view, typically from a nib.
-        initM01()
-    }
     
     /**
         Initializes the first mission's UI
@@ -142,7 +143,7 @@ class ScoringViewController: UIViewController {
         //Inits Label UI for score
         mi01Score = UILabel(frame: CGRect(x: labelX, y: 410.0, width: labelWidth, height: labelHeight))
         mi01Score.text = "Score: 0"
-        mi01Score.font = mi01Title.font.withSize(CGFloat(labelFontSize))
+        mi01Score.font = mi01Score.font.withSize(CGFloat(labelFontSize))
         scrollView.addSubview(mi01Score)
         //Constraints
         let leadingScoreConstraint = NSLayoutConstraint(item: mi01Score, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
@@ -177,12 +178,113 @@ class ScoringViewController: UIViewController {
                 }
             }
             
-            // TODO: Get the local mission scorer finished
             mi01Score.text = "Score: \(round.M01_01Score + round.M01_02Score + round.M01_03Score)"
             totalScore.text = "Score: \(round.getTotalScore())"
         }
     }
-
+    
+    //M02 Space Travel
+    var mi02Title: UILabel!
+    var mi02_01Text: UITextView!
+    var mi02_01Seg: UISegmentedControl!
+    var mi02_02Text: UITextView!
+    var mi02_02Seg: UISegmentedControl!
+    var mi02Score: UILabel!
+    
+    /**
+     Initializes the second mission's UI
+     Each "paragraph is for an individual UI.
+     UI declared above
+     */
+    func initM02() {
+        //Inits Label UI
+        mi02Title = UILabel(frame: CGRect(x: labelX, y: 470, width: labelWidth, height: labelHeight))
+        mi02Title.text = "M02 - Solar Panel Array"
+        mi02Title.font = mi02Title.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi02Title)
+        //Constraints
+        let leadingTitleConstraint = NSLayoutConstraint(item: mi02Title, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTitleConstraint = NSLayoutConstraint(item: mi02Title, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTitleConstraint = NSLayoutConstraint(item: mi02Title, attribute: .top, relatedBy: .equal, toItem: mi01Score, attribute: .bottom, multiplier: 1.0, constant: 20.0)
+        view.addConstraints([leadingTitleConstraint, trailingTitleConstraint, topTitleConstraint])
+        
+        //Inits Text UI
+        mi02_01Text = UITextView(frame: CGRect(x: labelX, y: 520.0, width: labelWidth, height: textHeight))
+        mi02_01Text.text = "Both Solar Panels are angled toward the same Field"
+        mi02_01Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi02_01Text.isScrollEnabled = false
+        mi02_01Text.isEditable = false
+        mi02_01Text.isSelectable = false
+        scrollView.addSubview(mi02_01Text)
+        let leadingTextConstraint01 = NSLayoutConstraint(item: mi02_01Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint01 = NSLayoutConstraint(item: mi02_01Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint01 = NSLayoutConstraint(item: mi02_01Text, attribute: .top, relatedBy: .equal, toItem: mi02Title, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint01, trailingTextConstraint01, topTextConstraint01])
+        
+        //Inits SegControls UI
+        mi02_01Seg = UISegmentedControl(items: ["No", "Yes"])
+        mi02_01Seg.frame = CGRect(x: segX, y: 600.0, width: segWidth, height: segHeight)
+        mi02_01Seg.selectedSegmentIndex = 0
+        mi02_01Seg.addTarget(self, action: #selector(mi02SegAction), for: .valueChanged)
+        scrollView.addSubview(mi02_01Seg)
+        let leadingSegConstraint01 = NSLayoutConstraint(item: mi02_01Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint01 = NSLayoutConstraint(item: mi02_01Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint01 = NSLayoutConstraint(item: mi02_01Seg, attribute: .top, relatedBy: .equal, toItem: mi02_01Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint01, trailingSegConstraint01, topSegConstraint01])
+        //Adds seg control to outlet
+        mi02SegControls.append(mi02_01Seg)
+        
+        //Inits Text UI
+        mi02_02Text = UITextView(frame: CGRect(x: labelX, y: 640.0, width: labelWidth, height: textHeight))
+        mi02_02Text.text = "Your Solar Panel is angled toward the other team’s Field"
+        mi02_02Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi02_02Text.isScrollEnabled = false
+        mi02_02Text.isEditable = false
+        mi02_02Text.isSelectable = false
+        scrollView.addSubview(mi02_02Text)
+        let leadingTextConstraint02 = NSLayoutConstraint(item: mi02_02Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint02 = NSLayoutConstraint(item: mi02_02Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint02 = NSLayoutConstraint(item: mi02_02Text, attribute: .top, relatedBy: .equal, toItem: mi02_01Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint02, trailingTextConstraint02, topTextConstraint02])
+        
+        //Inits SegControls UI
+        mi02_02Seg = UISegmentedControl(items: ["No", "Yes"])
+        mi02_02Seg.frame = CGRect(x: segX, y: 720.0, width: segWidth, height: segHeight)
+        mi02_02Seg.selectedSegmentIndex = 0
+        mi02_02Seg.addTarget(self, action: #selector(mi02SegAction), for: .valueChanged)
+        scrollView.addSubview(mi02_02Seg)
+        let leadingSegConstraint02 = NSLayoutConstraint(item: mi02_02Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint02 = NSLayoutConstraint(item: mi02_02Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint02 = NSLayoutConstraint(item: mi02_02Seg, attribute: .top, relatedBy: .equal, toItem: mi02_02Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint02, trailingSegConstraint02, topSegConstraint02])
+        //Adds seg control to outlet
+        mi02SegControls.append(mi02_02Seg)
+    }
+    
+    //Mission 02 Outlet
+    var mi02SegControls: [UISegmentedControl] = []
+    
+    //Mission 02 Action
+    @objc func mi02SegAction(sender: UISegmentedControl) {
+        if let indexOfControl = mi02SegControls.index(of: sender) {
+            if (indexOfControl == 0) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.isM02_01Done = true
+                } else {
+                    round.isM02_01Done = false
+                }
+            } else if (indexOfControl == 1) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.isM02_02Done = true
+                } else {
+                    round.isM02_02Done = false
+                }
+            }
+            
+            //mi02Score.text = "Score: \(round.M02_01Score + round.M02_02Score)"
+            totalScore.text = "Score: \(round.getTotalScore())"
+        }
+    }
 
 }
 
