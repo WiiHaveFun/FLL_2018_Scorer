@@ -134,16 +134,77 @@ struct Round {
     var M04_01Score = 0
     
     //M05 - Extraction
-    var isM05_01Done = false
-    var isM05_02Done = false
-    var isM05_03Done = false
-    var isM05_04Done = false
+    var isM05_01Done = false {
+        didSet {
+            if isM05_01Done == true {
+                M05_01Score = constants.M05_01Score
+            } else {
+                M05_01Score = 0
+            }
+        }
+    }
+    var isM05_02Done = false {
+        didSet {
+            if isM05_02Done == true {
+                M05_02Score = constants.M05_02Score
+                isM05_03Done = false
+            } else {
+                M05_02Score = 0
+            }
+        }
+    }
+    var isM05_03Done = false {
+        didSet {
+            if isM05_03Done == true {
+                M05_03Score = constants.M05_03Score
+                isM05_02Done = false
+            } else {
+                M05_03Score = 0
+            }
+        }
+    }
+    var isM05_04Done = false {
+        didSet {
+            if isM05_04Done == true {
+                M05_04Score = constants.M05_04Score
+            } else {
+                M05_04Score = 0
+            }
+        }
+    }
     var M05_01Score = 0
     var M05_02Score = 0
     var M05_03Score = 0
     var M05_04Score = 0
     
-    //M06 - Space Station Modules: 0
+    //M06 - Space Station Modules
+    var isM06_01Done = false {
+        didSet {
+            if isM06_01Done == true {
+                M06_01Score = constants.M06_01Score
+            } else {
+                M06_01Score = 0
+            }
+        }
+    }
+    var isM06_02Done = false {
+        didSet {
+            if isM06_02Done == true {
+                M06_02Score = constants.M06_02Score
+            } else {
+                M06_02Score = 0
+            }
+        }
+    }
+    var isM06_03Done = false {
+        didSet {
+            if isM06_03Done == true {
+                M06_03Score = constants.M06_03Score
+            } else {
+                M06_03Score = 0
+            }
+        }
+    }
     var M06_01Score = 0
     var M06_02Score = 0
     var M06_03Score = 0
@@ -229,5 +290,14 @@ struct Constants {
     let M03_02Score = 22
     
     let M04_01Score = 20
+    
+    let M05_01Score = 16
+    let M05_02Score = 12
+    let M05_03Score = 10
+    let M05_04Score = 8
+    
+    let M06_01Score = 16
+    let M06_02Score = 16
+    let M06_03Score = 14
 }
 

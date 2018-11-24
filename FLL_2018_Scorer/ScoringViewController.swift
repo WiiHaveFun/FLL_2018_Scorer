@@ -31,12 +31,14 @@ class ScoringViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        scrollView.contentSize = CGSize(width: 768, height: 2000)
+        scrollView.contentSize = CGSize(width: 768, height: 3000)
         // Do any additional setup after loading the view, typically from a nib.
         initM01()
         initM02()
         initM03()
         initM04()
+        initM05()
+        initM06()
     }
     
     /*Initializing Mission UI*/
@@ -519,6 +521,317 @@ class ScoringViewController: UIViewController {
             }
             
             mi04Score.text = "Score: \(round.M04_01Score)"
+            totalScore.text = "Score: \(round.getTotalScore())"
+        }
+    }
+    
+    //M05 Extraction
+    var mi05Title: UILabel!
+    var mi05_01Text: UITextView!
+    var mi05_01Seg: UISegmentedControl!
+    var mi05_02Text: UITextView!
+    var mi05_02Seg: UISegmentedControl!
+    var mi05_03Text: UITextView!
+    var mi05_03Seg: UISegmentedControl!
+    var mi05_04Text: UITextView!
+    var mi05_04Seg: UISegmentedControl!
+    var mi05Score: UILabel!
+    
+    func initM05() {
+        //Inits Label UI
+        mi05Title = UILabel(frame: CGRect(x: labelX, y: 1520.0, width: labelWidth, height: labelHeight))
+        mi05Title.text = "M05 - Extraction"
+        mi05Title.font = mi05Title.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi05Title)
+        //Constraints
+        let leadingTitleConstraint = NSLayoutConstraint(item: mi05Title, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTitleConstraint = NSLayoutConstraint(item: mi05Title, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTitleConstraint = NSLayoutConstraint(item: mi05Title, attribute: .top, relatedBy: .equal, toItem: mi04Score, attribute: .bottom, multiplier: 1.0, constant: 20.0)
+        view.addConstraints([leadingTitleConstraint, trailingTitleConstraint, topTitleConstraint])
+        
+        //Inits Text UI
+        mi05_01Text = UITextView(frame: CGRect(x: labelX, y: 1570.0, width: labelWidth, height: textHeight))
+        mi05_01Text.text = "All four Core Samples are no longer touching axle of Core Site Model"
+        mi05_01Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi05_01Text.isScrollEnabled = false
+        mi05_01Text.isEditable = false
+        mi05_01Text.isSelectable = false
+        scrollView.addSubview(mi05_01Text)
+        let leadingTextConstraint01 = NSLayoutConstraint(item: mi05_01Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint01 = NSLayoutConstraint(item: mi05_01Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint01 = NSLayoutConstraint(item: mi05_01Text, attribute: .top, relatedBy: .equal, toItem: mi05Title, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint01, trailingTextConstraint01, topTextConstraint01])
+        
+        //Inits SegControls UI
+        mi05_01Seg = UISegmentedControl(items: ["No", "Yes"])
+        mi05_01Seg.frame = CGRect(x: segX, y: 1650.0, width: segWidth, height: segHeight)
+        mi05_01Seg.selectedSegmentIndex = 0
+        mi05_01Seg.addTarget(self, action: #selector(mi05SegAction), for: .valueChanged)
+        scrollView.addSubview(mi05_01Seg)
+        let leadingSegConstraint01 = NSLayoutConstraint(item: mi05_01Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint01 = NSLayoutConstraint(item: mi05_01Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint01 = NSLayoutConstraint(item: mi05_01Seg, attribute: .top, relatedBy: .equal, toItem: mi05_01Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint01, trailingSegConstraint01, topSegConstraint01])
+        //Adds seg control to outlet
+        mi05SegControls.append(mi05_01Seg)
+        
+        mi05_02Text = UITextView(frame: CGRect(x: labelX, y: 1690.0, width: labelWidth, height: textHeight))
+        mi05_02Text.text = "Gas Core Sample is touching the Mat and completely in Lander’s Target Circle"
+        mi05_02Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi05_02Text.isScrollEnabled = false
+        mi05_02Text.isEditable = false
+        mi05_02Text.isSelectable = false
+        scrollView.addSubview(mi05_02Text)
+        let leadingTextConstraint02 = NSLayoutConstraint(item: mi05_02Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint02 = NSLayoutConstraint(item: mi05_02Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint02 = NSLayoutConstraint(item: mi05_02Text, attribute: .top, relatedBy: .equal, toItem: mi05_01Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint02, trailingTextConstraint02, topTextConstraint02])
+        
+        mi05_02Seg = UISegmentedControl(items: ["No", "Yes"])
+        mi05_02Seg.frame = CGRect(x: segX, y: 1770.0, width: segWidth, height: segHeight)
+        mi05_02Seg.selectedSegmentIndex = 0
+        mi05_02Seg.addTarget(self, action: #selector(mi05SegAction), for: .valueChanged)
+        scrollView.addSubview(mi05_02Seg)
+        let leadingSegConstraint02 = NSLayoutConstraint(item: mi05_02Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint02 = NSLayoutConstraint(item: mi05_02Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint02 = NSLayoutConstraint(item: mi05_02Seg, attribute: .top, relatedBy: .equal, toItem: mi05_02Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint02, trailingSegConstraint02, topSegConstraint02])
+        //Adds seg control to outlet
+        mi05SegControls.append(mi05_02Seg)
+        
+        mi05_03Text = UITextView(frame: CGRect(x: labelX, y: 1810.0, width: labelWidth, height: textHeight))
+        mi05_03Text.text = "-OR- Gas Core Sample is completely in Base"
+        mi05_03Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi05_03Text.isScrollEnabled = false
+        mi05_03Text.isEditable = false
+        mi05_03Text.isSelectable = false
+        scrollView.addSubview(mi05_03Text)
+        let leadingTextConstraint03 = NSLayoutConstraint(item: mi05_03Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint03 = NSLayoutConstraint(item: mi05_03Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint03 = NSLayoutConstraint(item: mi05_03Text, attribute: .top, relatedBy: .equal, toItem: mi05_02Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint03, trailingTextConstraint03, topTextConstraint03])
+        
+        mi05_03Seg = UISegmentedControl(items: ["No", "Yes"])
+        mi05_03Seg.frame = CGRect(x: segX, y: 1890.0, width: segWidth, height: segHeight)
+        mi05_03Seg.selectedSegmentIndex = 0
+        mi05_03Seg.addTarget(self, action: #selector(mi05SegAction), for: .valueChanged)
+        scrollView.addSubview(mi05_03Seg)
+        let leadingSegConstraint03 = NSLayoutConstraint(item: mi05_03Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint03 = NSLayoutConstraint(item: mi05_03Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint03 = NSLayoutConstraint(item: mi05_03Seg, attribute: .top, relatedBy: .equal, toItem: mi05_03Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint03, trailingSegConstraint03, topSegConstraint03])
+        //Adds seg control to outlet
+        mi05SegControls.append(mi05_03Seg)
+        
+        mi05_04Text = UITextView(frame: CGRect(x: labelX, y: 1930.0, width: labelWidth, height: textHeight))
+        mi05_04Text.text = "Water Core Sample is supported only by the Food Growth Chamber"
+        mi05_04Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi05_04Text.isScrollEnabled = false
+        mi05_04Text.isEditable = false
+        mi05_04Text.isSelectable = false
+        scrollView.addSubview(mi05_04Text)
+        let leadingTextConstraint04 = NSLayoutConstraint(item: mi05_04Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint04 = NSLayoutConstraint(item: mi05_04Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint04 = NSLayoutConstraint(item: mi05_04Text, attribute: .top, relatedBy: .equal, toItem: mi05_03Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint04, trailingTextConstraint04, topTextConstraint04])
+        
+        mi05_04Seg = UISegmentedControl(items: ["No", "Yes"])
+        mi05_04Seg.frame = CGRect(x: segX, y: 2010.0, width: segWidth, height: segHeight)
+        mi05_04Seg.selectedSegmentIndex = 0
+        mi05_04Seg.addTarget(self, action: #selector(mi05SegAction), for: .valueChanged)
+        scrollView.addSubview(mi05_04Seg)
+        let leadingSegConstraint04 = NSLayoutConstraint(item: mi05_04Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint04 = NSLayoutConstraint(item: mi05_04Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint04 = NSLayoutConstraint(item: mi05_04Seg, attribute: .top, relatedBy: .equal, toItem: mi05_04Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint04, trailingSegConstraint04, topSegConstraint04])
+        //Adds seg control to outlet
+        mi05SegControls.append(mi05_04Seg)
+        
+        //Inits Label UI for score
+        mi05Score = UILabel(frame: CGRect(x: labelX, y: 2050.0, width: labelWidth, height: labelHeight))
+        mi05Score.text = "Score: 0"
+        mi05Score.font = mi05Score.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi05Score)
+        //Constraints
+        let leadingScoreConstraint = NSLayoutConstraint(item: mi05Score, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingScoreConstraint = NSLayoutConstraint(item: mi05Score, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topScoreConstraint = NSLayoutConstraint(item: mi05Score, attribute: .top, relatedBy: .equal, toItem: mi05_04Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingScoreConstraint, trailingScoreConstraint, topScoreConstraint])
+    }
+    
+    //Mission 05 Outlet
+    var mi05SegControls: [UISegmentedControl] = []
+    
+    //Mission 05 Action
+    @objc func mi05SegAction(sender: UISegmentedControl) {
+        if let indexOfControl = mi05SegControls.index(of: sender) {
+            if (indexOfControl == 0) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.isM05_01Done = true
+                } else {
+                    round.isM05_01Done = false
+                }
+            } else if (indexOfControl == 1) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.isM05_02Done = true
+                    mi05SegControls[2].selectedSegmentIndex = 0
+                } else {
+                    round.isM05_02Done = false
+                }
+            } else if (indexOfControl == 2) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.isM05_03Done = true
+                    mi05SegControls[1].selectedSegmentIndex = 0
+                } else {
+                    round.isM05_03Done = false
+                }
+            } else if (indexOfControl == 3) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.isM05_04Done = true
+                } else {
+                    round.isM05_04Done = false
+                }
+            }
+            
+            mi05Score.text = "Score: \(round.M05_01Score + round.M05_02Score + round.M05_03Score + round.M05_04Score)"
+            totalScore.text = "Score: \(round.getTotalScore())"
+        }
+    }
+    
+    //M06 Space Station Modules
+    var mi06Title: UILabel!
+    var mi06_01Text: UITextView!
+    var mi06_01Seg: UISegmentedControl!
+    var mi06_02Text: UITextView!
+    var mi06_02Seg: UISegmentedControl!
+    var mi06_03Text: UITextView!
+    var mi06_03Seg: UISegmentedControl!
+    var mi06Score: UILabel!
+    
+    func initM06() {
+        //Inits Label UI
+        mi06Title = UILabel(frame: CGRect(x: labelX, y: 2110.0, width: labelWidth, height: labelHeight))
+        mi06Title.text = "M06 - Space Station Modules"
+        mi06Title.font = mi06Title.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi06Title)
+        //Constraints
+        let leadingTitleConstraint = NSLayoutConstraint(item: mi06Title, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTitleConstraint = NSLayoutConstraint(item: mi06Title, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTitleConstraint = NSLayoutConstraint(item: mi06Title, attribute: .top, relatedBy: .equal, toItem: mi05Score, attribute: .bottom, multiplier: 1.0, constant: 20.0)
+        view.addConstraints([leadingTitleConstraint, trailingTitleConstraint, topTitleConstraint])
+        
+        //Inits Text UI
+        mi06_01Text = UITextView(frame: CGRect(x: labelX, y: 2160.0, width: labelWidth, height: textHeight))
+        mi06_01Text.text = "Cone Module is completely in Base"
+        mi06_01Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi06_01Text.isScrollEnabled = false
+        mi06_01Text.isEditable = false
+        mi06_01Text.isSelectable = false
+        scrollView.addSubview(mi06_01Text)
+        let leadingTextConstraint01 = NSLayoutConstraint(item: mi06_01Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint01 = NSLayoutConstraint(item: mi06_01Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint01 = NSLayoutConstraint(item: mi06_01Text, attribute: .top, relatedBy: .equal, toItem: mi06Title, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint01, trailingTextConstraint01, topTextConstraint01])
+        
+        //Inits SegControls UI
+        mi06_01Seg = UISegmentedControl(items: ["No", "Yes"])
+        mi06_01Seg.frame = CGRect(x: segX, y: 2240.0, width: segWidth, height: segHeight)
+        mi06_01Seg.selectedSegmentIndex = 0
+        mi06_01Seg.addTarget(self, action: #selector(mi06SegAction), for: .valueChanged)
+        scrollView.addSubview(mi06_01Seg)
+        let leadingSegConstraint01 = NSLayoutConstraint(item: mi06_01Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint01 = NSLayoutConstraint(item: mi06_01Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint01 = NSLayoutConstraint(item: mi06_01Seg, attribute: .top, relatedBy: .equal, toItem: mi06_01Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint01, trailingSegConstraint01, topSegConstraint01])
+        //Adds seg control to outlet
+        mi06SegControls.append(mi06_01Seg)
+        
+        mi06_02Text = UITextView(frame: CGRect(x: labelX, y: 2280.0, width: labelWidth, height: textHeight))
+        mi06_02Text.text = "Tube Module is in west port of the Habitation Hub"
+        mi06_02Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi06_02Text.isScrollEnabled = false
+        mi06_02Text.isEditable = false
+        mi06_02Text.isSelectable = false
+        scrollView.addSubview(mi06_02Text)
+        let leadingTextConstraint02 = NSLayoutConstraint(item: mi06_02Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint02 = NSLayoutConstraint(item: mi06_02Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint02 = NSLayoutConstraint(item: mi06_02Text, attribute: .top, relatedBy: .equal, toItem: mi06_01Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint02, trailingTextConstraint02, topTextConstraint02])
+        
+        mi06_02Seg = UISegmentedControl(items: ["No", "Yes"])
+        mi06_02Seg.frame = CGRect(x: segX, y: 2360.0, width: segWidth, height: segHeight)
+        mi06_02Seg.selectedSegmentIndex = 0
+        mi06_02Seg.addTarget(self, action: #selector(mi06SegAction), for: .valueChanged)
+        scrollView.addSubview(mi06_02Seg)
+        let leadingSegConstraint02 = NSLayoutConstraint(item: mi06_02Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint02 = NSLayoutConstraint(item: mi06_02Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint02 = NSLayoutConstraint(item: mi06_02Seg, attribute: .top, relatedBy: .equal, toItem: mi06_02Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint02, trailingSegConstraint02, topSegConstraint02])
+        //Adds seg control to outlet
+        mi06SegControls.append(mi06_02Seg)
+
+        mi06_03Text = UITextView(frame: CGRect(x: labelX, y: 2400.0, width: labelWidth, height: textHeight))
+        mi06_03Text.text = "Dock Module is in east port of the Habitation Hub"
+        mi06_03Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi06_03Text.isScrollEnabled = false
+        mi06_03Text.isEditable = false
+        mi06_03Text.isSelectable = false
+        scrollView.addSubview(mi06_03Text)
+        let leadingTextConstraint03 = NSLayoutConstraint(item: mi06_03Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint03 = NSLayoutConstraint(item: mi06_03Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint03 = NSLayoutConstraint(item: mi06_03Text, attribute: .top, relatedBy: .equal, toItem: mi06_02Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint03, trailingTextConstraint03, topTextConstraint03])
+        
+        mi06_03Seg = UISegmentedControl(items: ["No", "Yes"])
+        mi06_03Seg.frame = CGRect(x: segX, y: 2480.0, width: segWidth, height: segHeight)
+        mi06_03Seg.selectedSegmentIndex = 0
+        mi06_03Seg.addTarget(self, action: #selector(mi06SegAction), for: .valueChanged)
+        scrollView.addSubview(mi06_03Seg)
+        let leadingSegConstraint03 = NSLayoutConstraint(item: mi06_03Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint03 = NSLayoutConstraint(item: mi06_03Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint03 = NSLayoutConstraint(item: mi06_03Seg, attribute: .top, relatedBy: .equal, toItem: mi06_03Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint03, trailingSegConstraint03, topSegConstraint03])
+        //Adds seg control to outlet
+        mi06SegControls.append(mi06_03Seg)
+        
+        //Inits Label UI for score
+        mi06Score = UILabel(frame: CGRect(x: labelX, y: 2520.0, width: labelWidth, height: labelHeight))
+        mi06Score.text = "Score: 0"
+        mi06Score.font = mi06Score.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi06Score)
+        //Constraints
+        let leadingScoreConstraint = NSLayoutConstraint(item: mi06Score, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingScoreConstraint = NSLayoutConstraint(item: mi06Score, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topScoreConstraint = NSLayoutConstraint(item: mi06Score, attribute: .top, relatedBy: .equal, toItem: mi06_03Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingScoreConstraint, trailingScoreConstraint, topScoreConstraint])
+    }
+    
+    //Mission 06 Outlet
+    var mi06SegControls: [UISegmentedControl] = []
+    
+    //Mission 06 Action
+    @objc func mi06SegAction(sender: UISegmentedControl) {
+        if let indexOfControl = mi06SegControls.index(of: sender) {
+            if (indexOfControl == 0) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.isM06_01Done = true
+                } else {
+                    round.isM06_01Done = false
+                }
+            } else if (indexOfControl == 1) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.isM06_02Done = true
+                } else {
+                    round.isM06_02Done = false
+                }
+            } else if (indexOfControl == 2) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.isM06_03Done = true
+                } else {
+                    round.isM06_03Done = false
+                }
+            }
+            mi06Score.text = "Score: \(round.M06_01Score + round.M06_02Score + round.M06_03Score)"
             totalScore.text = "Score: \(round.getTotalScore())"
         }
     }
