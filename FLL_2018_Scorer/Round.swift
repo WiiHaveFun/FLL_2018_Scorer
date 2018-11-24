@@ -15,9 +15,9 @@ struct Round {
     private var totalScore = 0
     
     enum Position {
-        case No
-        case Partially
-        case Completely
+        case no
+        case partially
+        case completely
     }
     
     //M01 - Space Travel
@@ -210,7 +210,17 @@ struct Round {
     var M06_03Score = 0
     
     //M07 - Space Walk Emergency
-    var M07_01Status = Position.No
+    var M07_01Status = Position.no {
+        didSet {
+            if M07_01Status == Position.partially {
+                M07_01Score = constants.M07PartiallyScore
+            } else if M07_01Status == Position.completely {
+                M07_01Score = constants.M07CompletelyScore
+            } else {
+                M07_01Score = 0
+            }
+        }
+    }
     var M07_01Score = 0
     
     //M08 - Aerobic Exercise
@@ -299,5 +309,8 @@ struct Constants {
     let M06_01Score = 16
     let M06_02Score = 16
     let M06_03Score = 14
+    
+    let M07PartiallyScore = 18
+    let M07CompletelyScore = 22
 }
 
