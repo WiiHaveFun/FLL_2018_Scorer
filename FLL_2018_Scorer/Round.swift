@@ -259,7 +259,15 @@ struct Round {
     var M09_01Score = 0
     
     //M10 - Food Production
-    var isM10_01Done = false
+    var isM10_01Done = false {
+        didSet {
+            if isM10_01Done == true {
+                M10_01Score = constants.M10_01Score
+            } else {
+                M10_01Score = 0
+            }
+        }
+    }
     var M10_01Score = 0
     
     //M11 - Escape Velocity
@@ -341,5 +349,7 @@ struct Constants {
     let M08OrangeScore = 22
     
     let M09_01Score = 16
+    
+    let M10_01Score = 16
 }
 
