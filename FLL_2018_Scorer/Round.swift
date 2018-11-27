@@ -247,7 +247,15 @@ struct Round {
     var M08_01Score = 0
     
     //M09 - Strength Exercise
-    var isM09_01Done = false
+    var isM09_01Done = false {
+        didSet {
+            if isM09_01Done == true {
+                M09_01Score = constants.M09_01Score
+            } else {
+                M09_01Score = 0
+            }
+        }
+    }
     var M09_01Score = 0
     
     //M10 - Food Production
@@ -331,5 +339,7 @@ struct Constants {
     let M08GrayScore = 18
     let M08WhiteScore = 20
     let M08OrangeScore = 22
+    
+    let M09_01Score = 16
 }
 
