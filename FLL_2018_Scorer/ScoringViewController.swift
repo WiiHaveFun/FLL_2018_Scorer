@@ -31,7 +31,7 @@ class ScoringViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        scrollView.contentSize = CGSize(width: 768, height: 3000)
+        scrollView.contentSize = CGSize(width: 768, height: 4000)
         // Do any additional setup after loading the view, typically from a nib.
         initM01()
         initM02()
@@ -40,6 +40,7 @@ class ScoringViewController: UIViewController {
         initM05()
         initM06()
         initM07()
+        initM08()
     }
     
     /*Initializing Mission UI*/
@@ -837,7 +838,7 @@ class ScoringViewController: UIViewController {
         }
     }
     
-    //M06 Space Station Modules
+    //M07 Space Walk Emergency
     var mi07Title: UILabel!
     var mi07_01Text: UITextView!
     var mi07_01Seg: UISegmentedControl!
@@ -911,6 +912,86 @@ class ScoringViewController: UIViewController {
                 }
             }
             mi07Score.text = "Score: \(round.M07_01Score)"
+            totalScore.text = "Score: \(round.getTotalScore())"
+        }
+    }
+    
+    //M08 Aerobic Exersise
+    var mi08Title: UILabel!
+    var mi08_01Text: UITextView!
+    var mi08_01Seg: UISegmentedControl!
+    var mi08Score: UILabel!
+    
+    func initM08() {
+        //Inits Label UI
+        mi08Title = UILabel(frame: CGRect(x: labelX, y: 2810.0, width: labelWidth, height: labelHeight))
+        mi08Title.text = "M08 - Aerobic Exercize"
+        mi08Title.font = mi08Title.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi08Title)
+        //Constraints
+        let leadingTitleConstraint = NSLayoutConstraint(item: mi08Title, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTitleConstraint = NSLayoutConstraint(item: mi08Title, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTitleConstraint = NSLayoutConstraint(item: mi08Title, attribute: .top, relatedBy: .equal, toItem: mi07Score, attribute: .bottom, multiplier: 1.0, constant: 20.0)
+        view.addConstraints([leadingTitleConstraint, trailingTitleConstraint, topTitleConstraint])
+        
+        //Inits Text UI
+        mi08_01Text = UITextView(frame: CGRect(x: labelX, y: 2860.0, width: labelWidth, height: textHeight))
+        mi08_01Text.text = "Exercise pointer tip is in (due only to moving one or both Handle Assemblies):"
+        mi08_01Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi08_01Text.isScrollEnabled = false
+        mi08_01Text.isEditable = false
+        mi08_01Text.isSelectable = false
+        scrollView.addSubview(mi08_01Text)
+        let leadingTextConstraint01 = NSLayoutConstraint(item: mi08_01Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint01 = NSLayoutConstraint(item: mi08_01Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint01 = NSLayoutConstraint(item: mi08_01Text, attribute: .top, relatedBy: .equal, toItem: mi08Title, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint01, trailingTextConstraint01, topTextConstraint01])
+        
+        //Inits SegControls UI
+        mi08_01Seg = UISegmentedControl(items: ["None", "Gray", "White", "Orange"])
+        //Special frame for quadruple segmented control
+        mi08_01Seg.frame = CGRect(x: segX - segWidth / 2, y: 2940.0, width: segWidth * 2, height: segHeight)
+        mi08_01Seg.selectedSegmentIndex = 0
+        mi08_01Seg.addTarget(self, action: #selector(mi08SegAction), for: .valueChanged)
+        scrollView.addSubview(mi08_01Seg)
+        //constant is changed for triple segmented control
+        let leadingSegConstraint01 = NSLayoutConstraint(item: mi08_01Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 104.0)
+        let trailingSegConstraint01 = NSLayoutConstraint(item: mi08_01Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 104.0)
+        let topSegConstraint01 = NSLayoutConstraint(item: mi08_01Seg, attribute: .top, relatedBy: .equal, toItem: mi08_01Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint01, trailingSegConstraint01, topSegConstraint01])
+        //Adds seg control to outlet
+        mi08SegControls.append(mi08_01Seg)
+        
+        //Inits Label UI for score
+        mi08Score = UILabel(frame: CGRect(x: labelX, y: 2980.0, width: labelWidth, height: labelHeight))
+        mi08Score.text = "Score: 0"
+        mi08Score.font = mi08Score.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi08Score)
+        //Constraints
+        let leadingScoreConstraint = NSLayoutConstraint(item: mi08Score, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingScoreConstraint = NSLayoutConstraint(item: mi08Score, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topScoreConstraint = NSLayoutConstraint(item: mi08Score, attribute: .top, relatedBy: .equal, toItem: mi08_01Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingScoreConstraint, trailingScoreConstraint, topScoreConstraint])
+    }
+    
+    //Mission 08 Outlet
+    var mi08SegControls: [UISegmentedControl] = []
+    
+    //Mission 08 Action
+    @objc func mi08SegAction(sender: UISegmentedControl) {
+        if let indexOfControl = mi08SegControls.index(of: sender) {
+            if (indexOfControl == 0) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.M08_01Status = .gray
+                } else if (sender.selectedSegmentIndex == 2) {
+                    round.M08_01Status = .white
+                } else if (sender.selectedSegmentIndex == 3) {
+                    round.M08_01Status = .orange
+                } else {
+                    round.M08_01Status = .none
+                }
+            }
+            mi08Score.text = "Score: \(round.M08_01Score)"
             totalScore.text = "Score: \(round.getTotalScore())"
         }
     }
