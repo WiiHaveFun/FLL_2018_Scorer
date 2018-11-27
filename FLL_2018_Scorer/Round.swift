@@ -271,7 +271,15 @@ struct Round {
     var M10_01Score = 0
     
     //M11 - Escape Velocity
-    var isM11_01Done = false
+    var isM11_01Done = false {
+        didSet {
+            if isM11_01Done == true {
+                M11_01Score = constants.M11_01Score
+            } else {
+                M11_01Score = 0
+            }
+        }
+    }
     var M11_01Score = 0
     
     //M12 - Satellite Orbits
@@ -351,5 +359,7 @@ struct Constants {
     let M09_01Score = 16
     
     let M10_01Score = 16
+    
+    let M11_01Score = 24
 }
 

@@ -43,6 +43,7 @@ class ScoringViewController: UIViewController {
         initM08()
         initM09()
         initM10()
+        initM11()
     }
     
     /*Initializing Mission UI*/
@@ -1128,10 +1129,10 @@ class ScoringViewController: UIViewController {
         view.addConstraints([leadingScoreConstraint, trailingScoreConstraint, topScoreConstraint])
     }
     
-    //Mission 09 Outlet
+    //Mission 10 Outlet
     var mi10SegControls: [UISegmentedControl] = []
     
-    //Mission 09 Action
+    //Mission 10 Action
     @objc func mi10SegAction(sender: UISegmentedControl) {
         if let indexOfControl = mi10SegControls.index(of: sender) {
             if (indexOfControl == 0) {
@@ -1142,6 +1143,80 @@ class ScoringViewController: UIViewController {
                 }
             }
             mi10Score.text = "Score: \(round.M10_01Score)"
+            totalScore.text = "Score: \(round.getTotalScore())"
+        }
+    }
+    
+    //M11 Escape Velocity
+    var mi11Title: UILabel!
+    var mi11_01Text: UITextView!
+    var mi11_01Seg: UISegmentedControl!
+    var mi11Score: UILabel!
+    
+    func initM11() {
+        //Inits Label UI
+        mi11Title = UILabel(frame: CGRect(x: labelX, y: 3500.0, width: labelWidth, height: labelHeight))
+        mi11Title.text = "M11 - Escape Velocity"
+        mi11Title.font = mi11Title.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi11Title)
+        //Constraints
+        let leadingTitleConstraint = NSLayoutConstraint(item: mi11Title, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTitleConstraint = NSLayoutConstraint(item: mi11Title, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTitleConstraint = NSLayoutConstraint(item: mi11Title, attribute: .top, relatedBy: .equal, toItem: mi10Score, attribute: .bottom, multiplier: 1.0, constant: 20.0)
+        view.addConstraints([leadingTitleConstraint, trailingTitleConstraint, topTitleConstraint])
+        
+        //Inits Text UI
+        mi11_01Text = UITextView(frame: CGRect(x: labelX, y: 3550.0, width: labelWidth, height: textHeight))
+        mi11_01Text.text = "Spacecraft stays up (due only to pressing/hitting the Strike Pad)"
+        mi11_01Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi11_01Text.isScrollEnabled = false
+        mi11_01Text.isEditable = false
+        mi11_01Text.isSelectable = false
+        scrollView.addSubview(mi11_01Text)
+        let leadingTextConstraint01 = NSLayoutConstraint(item: mi11_01Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint01 = NSLayoutConstraint(item: mi11_01Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint01 = NSLayoutConstraint(item: mi11_01Text, attribute: .top, relatedBy: .equal, toItem: mi11Title, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint01, trailingTextConstraint01, topTextConstraint01])
+        
+        //Inits SegControls UI
+        mi11_01Seg = UISegmentedControl(items: ["No", "Yes"])
+        mi11_01Seg.frame = CGRect(x: segX, y: 3630.0, width: segWidth, height: segHeight)
+        mi11_01Seg.selectedSegmentIndex = 0
+        mi11_01Seg.addTarget(self, action: #selector(mi11SegAction), for: .valueChanged)
+        scrollView.addSubview(mi11_01Seg)
+        let leadingSegConstraint01 = NSLayoutConstraint(item: mi11_01Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint01 = NSLayoutConstraint(item: mi11_01Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint01 = NSLayoutConstraint(item: mi11_01Seg, attribute: .top, relatedBy: .equal, toItem: mi11_01Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint01, trailingSegConstraint01, topSegConstraint01])
+        //Adds seg control to outlet
+        mi11SegControls.append(mi11_01Seg)
+        
+        //Inits Label UI for score
+        mi11Score = UILabel(frame: CGRect(x: labelX, y: 3670.0, width: labelWidth, height: labelHeight))
+        mi11Score.text = "Score: 0"
+        mi11Score.font = mi11Score.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi11Score)
+        //Constraints
+        let leadingScoreConstraint = NSLayoutConstraint(item: mi11Score, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingScoreConstraint = NSLayoutConstraint(item: mi11Score, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topScoreConstraint = NSLayoutConstraint(item: mi11Score, attribute: .top, relatedBy: .equal, toItem: mi11_01Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingScoreConstraint, trailingScoreConstraint, topScoreConstraint])
+    }
+    
+    //Mission 10 Outlet
+    var mi11SegControls: [UISegmentedControl] = []
+    
+    //Mission 10 Action
+    @objc func mi11SegAction(sender: UISegmentedControl) {
+        if let indexOfControl = mi11SegControls.index(of: sender) {
+            if (indexOfControl == 0) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.isM11_01Done = true
+                } else {
+                    round.isM11_01Done = false
+                }
+            }
+            mi11Score.text = "Score: \(round.M11_01Score)"
             totalScore.text = "Score: \(round.getTotalScore())"
         }
     }
