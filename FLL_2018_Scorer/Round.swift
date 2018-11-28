@@ -303,7 +303,7 @@ struct Round {
         didSet {
             if M13_01Status == Color.gray {
                 M13_01Score = constants.M13GrayScore
-            } else if M08_01Status == Color.white {
+            } else if M13_01Status == Color.white {
                 M13_01Score = constants.M13WhiteScore
             } else if M13_01Status == Color.orange {
                 M13_01Score = constants.M13OrangeScore
@@ -386,8 +386,8 @@ struct Constants {
     let M12TwoSatelliteScore = 16
     let M12ThreeSatelliteScore = 24
     
-    let M13GrayScore = 18
-    let M13WhiteScore = 20
-    let M13OrangeScore = 22
+    let M13GrayScore = 16
+    let M13WhiteScore = 18
+    let M13OrangeScore = 20
 }
 

@@ -31,7 +31,7 @@ class ScoringViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        scrollView.contentSize = CGSize(width: 768, height: 4000)
+        scrollView.contentSize = CGSize(width: 768, height: 5000)
         // Do any additional setup after loading the view, typically from a nib.
         initM01()
         initM02()
@@ -45,6 +45,7 @@ class ScoringViewController: UIViewController {
         initM10()
         initM11()
         initM12()
+        initM13()
     }
     
     /*Initializing Mission UI*/
@@ -1377,7 +1378,7 @@ class ScoringViewController: UIViewController {
                     round.M13_01Status = .none
                 }
             }
-            mi08Score.text = "Score: \(round.M08_01Score)"
+            mi13Score.text = "Score: \(round.M13_01Score)"
             totalScore.text = "Score: \(round.getTotalScore())"
         }
     }
