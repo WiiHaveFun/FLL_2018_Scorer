@@ -299,12 +299,20 @@ struct Round {
     var M12_01Score = 0
     
     //M13 - Observatory
-    var isM13_01Done = false
-    var isM13_02Done = false
-    var isM13_03Done = false
+    var M13_01Status = Color.none {
+        didSet {
+            if M13_01Status == Color.gray {
+                M13_01Score = constants.M13GrayScore
+            } else if M08_01Status == Color.white {
+                M13_01Score = constants.M13WhiteScore
+            } else if M13_01Status == Color.orange {
+                M13_01Score = constants.M13OrangeScore
+            } else {
+                M13_01Score = 0
+            }
+        }
+    }
     var M13_01Score = 0
-    var M13_02Score = 0
-    var M13_03Score = 0
     
     //M14 - Meteoroid Deflection
     var M14MeteoroidsInCenter = 0
@@ -330,7 +338,7 @@ struct Round {
     }
     
     mutating func calculateTotalScore() {
-        totalScore = M01_01Score + M01_02Score + M01_03Score + M02_01Score + M02_02Score + M03_01Score + M03_02Score + M04_01Score + M05_01Score + M05_02Score + M05_03Score + M05_04Score + M06_01Score + M06_02Score + M06_03Score + M07_01Score + M08_01Score + M09_01Score + M10_01Score + M11_01Score + M12_01Score + M13_01Score + M13_02Score + M13_03Score + M14MeteoroidsInSideScore + M14MeteoroidsInCenterScore + M15_01Score + M15_02Score + M15_03Score + calculatePenalties(by: numberOfPenalties)
+        totalScore = M01_01Score + M01_02Score + M01_03Score + M02_01Score + M02_02Score + M03_01Score + M03_02Score + M04_01Score + M05_01Score + M05_02Score + M05_03Score + M05_04Score + M06_01Score + M06_02Score + M06_03Score + M07_01Score + M08_01Score + M09_01Score + M10_01Score + M11_01Score + M12_01Score + M13_01Score + M14MeteoroidsInSideScore + M14MeteoroidsInCenterScore + M15_01Score + M15_02Score + M15_03Score + calculatePenalties(by: numberOfPenalties)
     }
     
     mutating func getTotalScore() -> Int {
@@ -377,5 +385,9 @@ struct Constants {
     let M12OneSatelliteScore = 8
     let M12TwoSatelliteScore = 16
     let M12ThreeSatelliteScore = 24
+    
+    let M13GrayScore = 18
+    let M13WhiteScore = 20
+    let M13OrangeScore = 22
 }
 
