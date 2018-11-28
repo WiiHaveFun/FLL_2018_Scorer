@@ -283,7 +283,19 @@ struct Round {
     var M11_01Score = 0
     
     //M12 - Satellite Orbits
-    var M12_01NumberOfSatellites = 0
+    var M12_01NumberOfSatellites = 0 {
+        didSet {
+            if M12_01NumberOfSatellites == 1 {
+                M12_01Score = constants.M12OneSatelliteScore
+            } else if M12_01NumberOfSatellites == 2 {
+                M12_01Score = constants.M12TwoSatelliteScore
+            } else if M12_01NumberOfSatellites == 3 {
+                M12_01Score = constants.M12ThreeSatelliteScore
+            } else {
+                M12_01Score = 0
+            }
+        }
+    }
     var M12_01Score = 0
     
     //M13 - Observatory
@@ -361,5 +373,9 @@ struct Constants {
     let M10_01Score = 16
     
     let M11_01Score = 24
+    
+    let M12OneSatelliteScore = 8
+    let M12TwoSatelliteScore = 16
+    let M12ThreeSatelliteScore = 24
 }
 
