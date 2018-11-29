@@ -46,6 +46,7 @@ class ScoringViewController: UIViewController {
         initM11()
         initM12()
         initM13()
+        initM14()
     }
     
     /*Initializing Mission UI*/
@@ -1312,7 +1313,7 @@ class ScoringViewController: UIViewController {
     func initM13() {
         //Inits Label UI
         mi13Title = UILabel(frame: CGRect(x: labelX, y: 3960.0, width: labelWidth, height: labelHeight))
-        mi13Title.text = "M08 - Aerobic Exercise"
+        mi13Title.text = "M13 - Observatory"
         mi13Title.font = mi13Title.font.withSize(CGFloat(labelFontSize))
         scrollView.addSubview(mi13Title)
         //Constraints
@@ -1323,7 +1324,7 @@ class ScoringViewController: UIViewController {
         
         //Inits Text UI
         mi13_01Text = UITextView(frame: CGRect(x: labelX, y: 4010.0, width: labelWidth, height: textHeight))
-        mi13_01Text.text = "Exercise pointer tip is in (due only to moving one or both Handle Assemblies):"
+        mi13_01Text.text = "The Observatory pointer tip is in:"
         mi13_01Text.font = UIFont.systemFont(ofSize: 20.0)
         mi13_01Text.isScrollEnabled = false
         mi13_01Text.isEditable = false
@@ -1379,6 +1380,138 @@ class ScoringViewController: UIViewController {
                 }
             }
             mi13Score.text = "Score: \(round.M13_01Score)"
+            totalScore.text = "Score: \(round.getTotalScore())"
+        }
+    }
+    
+    //M014 Observatory
+    var mi14Title: UILabel!
+    var mi14_01Text: UITextView!
+    var mi14_01Seg: UISegmentedControl!
+    var mi14_02Text: UITextView!
+    var mi14_02Seg: UISegmentedControl!
+    var mi14Score: UILabel!
+    
+    func initM14() {
+        //Inits Label UI
+        mi14Title = UILabel(frame: CGRect(x: labelX, y: 4190.0, width: labelWidth, height: labelHeight))
+        mi14Title.text = "M14 - Meteroid Deflection"
+        mi14Title.font = mi14Title.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi14Title)
+        //Constraints
+        let leadingTitleConstraint = NSLayoutConstraint(item: mi14Title, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTitleConstraint = NSLayoutConstraint(item: mi14Title, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTitleConstraint = NSLayoutConstraint(item: mi14Title, attribute: .top, relatedBy: .equal, toItem: mi13Score, attribute: .bottom, multiplier: 1.0, constant: 20.0)
+        view.addConstraints([leadingTitleConstraint, trailingTitleConstraint, topTitleConstraint])
+        
+        //Inits Text UI
+        mi14_01Text = UITextView(frame: CGRect(x: labelX, y: 4240.0, width: labelWidth, height: textHeight))
+        mi14_01Text.text = "Meteoroids touching the Mat and in the Center Section:"
+        mi14_01Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi14_01Text.isScrollEnabled = false
+        mi14_01Text.isEditable = false
+        mi14_01Text.isSelectable = false
+        scrollView.addSubview(mi14_01Text)
+        let leadingTextConstraint01 = NSLayoutConstraint(item: mi14_01Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint01 = NSLayoutConstraint(item: mi14_01Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint01 = NSLayoutConstraint(item: mi14_01Text, attribute: .top, relatedBy: .equal, toItem: mi14Title, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint01, trailingTextConstraint01, topTextConstraint01])
+        
+        //Inits SegControls UI
+        mi14_01Seg = UISegmentedControl(items: ["0", "1", "2"])
+        //Special frame for triple segmented control
+        mi14_01Seg.frame = CGRect(x: segX - segWidth / 4, y: 4320.0, width: segWidth * 1.5, height: segHeight)
+        mi14_01Seg.selectedSegmentIndex = 0
+        mi14_01Seg.addTarget(self, action: #selector(mi14SegAction), for: .valueChanged)
+        scrollView.addSubview(mi14_01Seg)
+        //constant is changed for triple segmented control
+        let leadingSegConstraint01 = NSLayoutConstraint(item: mi14_01Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 174.0)
+        let trailingSegConstraint01 = NSLayoutConstraint(item: mi14_01Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 174.0)
+        let topSegConstraint01 = NSLayoutConstraint(item: mi14_01Seg, attribute: .top, relatedBy: .equal, toItem: mi14_01Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint01, trailingSegConstraint01, topSegConstraint01])
+        //Adds seg control to outlet
+        mi14SegControls.append(mi14_01Seg)
+        
+        //Inits Text UI
+        mi14_02Text = UITextView(frame: CGRect(x: labelX, y: 4360.0, width: labelWidth, height: textHeight))
+        mi14_02Text.text = "Meteoroids touching the Mat and in Either Side Section:"
+        mi14_02Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi14_02Text.isScrollEnabled = false
+        mi14_02Text.isEditable = false
+        mi14_02Text.isSelectable = false
+        scrollView.addSubview(mi14_02Text)
+        let leadingTextConstraint02 = NSLayoutConstraint(item: mi14_02Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint02 = NSLayoutConstraint(item: mi14_02Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint02 = NSLayoutConstraint(item: mi14_02Text, attribute: .top, relatedBy: .equal, toItem: mi14_01Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint02, trailingTextConstraint02, topTextConstraint02])
+        
+        //Inits SegControls UI
+        mi14_02Seg = UISegmentedControl(items: ["0", "1", "2"])
+        //Special frame for triple segmented control
+        mi14_02Seg.frame = CGRect(x: segX - segWidth / 4, y: 4440.0, width: segWidth * 1.5, height: segHeight)
+        mi14_02Seg.selectedSegmentIndex = 0
+        mi14_02Seg.addTarget(self, action: #selector(mi14SegAction), for: .valueChanged)
+        scrollView.addSubview(mi14_02Seg)
+        //constant is changed for triple segmented control
+        let leadingSegConstraint02 = NSLayoutConstraint(item: mi14_02Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 174.0)
+        let trailingSegConstraint02 = NSLayoutConstraint(item: mi14_02Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 174.0)
+        let topSegConstraint02 = NSLayoutConstraint(item: mi14_02Seg, attribute: .top, relatedBy: .equal, toItem: mi14_02Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint02, trailingSegConstraint02, topSegConstraint02])
+        //Adds seg control to outlet
+        mi14SegControls.append(mi14_02Seg)
+        
+        //Inits Label UI for score
+        mi14Score = UILabel(frame: CGRect(x: labelX, y: 4480.0, width: labelWidth, height: labelHeight))
+        mi14Score.text = "Score: 0"
+        mi14Score.font = mi14Score.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi14Score)
+        //Constraints
+        let leadingScoreConstraint = NSLayoutConstraint(item: mi14Score, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingScoreConstraint = NSLayoutConstraint(item: mi14Score, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topScoreConstraint = NSLayoutConstraint(item: mi14Score, attribute: .top, relatedBy: .equal, toItem: mi14_02Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingScoreConstraint, trailingScoreConstraint, topScoreConstraint])
+    }
+    
+    //Mission 14 Outlet
+    var mi14SegControls: [UISegmentedControl] = []
+    
+    //Mission 14 Action
+    @objc func mi14SegAction(sender: UISegmentedControl) {
+        if let indexOfControl = mi14SegControls.index(of: sender) {
+            if (indexOfControl == 0) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.M14MeteoroidsInCenter = 1
+                    if round.M14MeteoroidsInSide == 2 {
+                        round.M14MeteoroidsInSide = 1
+                        mi14SegControls[1].selectedSegmentIndex = 1
+                    }
+                } else if (sender.selectedSegmentIndex == 2) {
+                    round.M14MeteoroidsInCenter = 2
+                    if round.M14MeteoroidsInSide != 0 {
+                        round.M14MeteoroidsInSide = 0
+                        mi14SegControls[1].selectedSegmentIndex = 0
+                    }
+                } else {
+                    round.M14MeteoroidsInCenter = 0
+                }
+            } else if (indexOfControl == 1) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.M14MeteoroidsInSide = 1
+                    if round.M14MeteoroidsInCenter == 2 {
+                        round.M14MeteoroidsInCenter = 1
+                        mi14SegControls[0].selectedSegmentIndex = 1
+                    }
+                } else if (sender.selectedSegmentIndex == 2) {
+                    round.M14MeteoroidsInSide = 2
+                    if round.M14MeteoroidsInCenter != 0 {
+                        round.M14MeteoroidsInCenter = 0
+                        mi14SegControls[0].selectedSegmentIndex = 0
+                    }
+                } else {
+                    round.M14MeteoroidsInSide = 0
+                }
+            }
+            mi14Score.text = "Score: \(round.M14MeteoroidsInCenterScore + round.M14MeteoroidsInSideScore )"
             totalScore.text = "Score: \(round.getTotalScore())"
         }
     }

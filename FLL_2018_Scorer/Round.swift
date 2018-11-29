@@ -315,8 +315,28 @@ struct Round {
     var M13_01Score = 0
     
     //M14 - Meteoroid Deflection
-    var M14MeteoroidsInCenter = 0
-    var M14MeteoroidsInSide = 0
+    var M14MeteoroidsInCenter = 0 {
+        didSet {
+            if M14MeteoroidsInCenter == 1 {
+                M14MeteoroidsInCenterScore = constants.M14InCenterScorePerMeteor
+            } else if M14MeteoroidsInCenter == 2 {
+                M14MeteoroidsInCenterScore = constants.M14InCenterScorePerMeteor * 2
+            } else {
+                M14MeteoroidsInCenterScore = 0
+            }
+        }
+    }
+    var M14MeteoroidsInSide = 1 {
+        didSet {
+            if M14MeteoroidsInSide == 1 {
+                M14MeteoroidsInSideScore = constants.M14InSideScorePerMeteor
+            } else if M14MeteoroidsInSide == 2 {
+                M14MeteoroidsInSideScore = constants.M14InSideScorePerMeteor * 2
+            } else {
+                M14MeteoroidsInSideScore = 0
+            }
+        }
+    }
     var M14MeteoroidsInCenterScore = 0
     var M14MeteoroidsInSideScore = 0
     
@@ -389,5 +409,8 @@ struct Constants {
     let M13GrayScore = 16
     let M13WhiteScore = 18
     let M13OrangeScore = 20
+    
+    let M14InCenterScorePerMeteor = 12
+    let M14InSideScorePerMeteor = 8
 }
 
