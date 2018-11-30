@@ -31,7 +31,7 @@ class ScoringViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        scrollView.contentSize = CGSize(width: 768, height: 5000)
+        scrollView.contentSize = CGSize(width: 768, height: 5200)
         // Do any additional setup after loading the view, typically from a nib.
         initM01()
         initM02()
@@ -48,6 +48,7 @@ class ScoringViewController: UIViewController {
         initM13()
         initM14()
         initM15()
+        initPenalties()
     }
     
     /*Initializing Mission UI*/
@@ -1517,7 +1518,7 @@ class ScoringViewController: UIViewController {
         }
     }
     
-    //M015 Lander Touch-Down
+    //M15 Lander Touch-Down
     var mi15Title: UILabel!
     var mi15_01Text: UITextView!
     var mi15_01Seg: UISegmentedControl!
@@ -1626,6 +1627,89 @@ class ScoringViewController: UIViewController {
                 }
             }
             //mi15Score.text = "Score: \(round.M15_01Score + round.M15_02Score )"
+            totalScore.text = "Score: \(round.getTotalScore())"
+        }
+    }
+    
+    //Penalties
+    var penaltiesTitle: UILabel!
+    var penaltiesText: UITextView!
+    var penaltiesSeg: UISegmentedControl!
+    var penaltiesScore: UILabel!
+    
+    func initPenalties() {
+        //Inits Label UI
+        penaltiesTitle = UILabel(frame: CGRect(x: labelX, y: 4890.0, width: labelWidth, height: labelHeight))
+        penaltiesTitle.text = "Penalties"
+        penaltiesTitle.font = penaltiesTitle.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(penaltiesTitle)
+        //Constraints
+        let leadingTitleConstraint = NSLayoutConstraint(item: penaltiesTitle, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTitleConstraint = NSLayoutConstraint(item: penaltiesTitle, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTitleConstraint = NSLayoutConstraint(item: penaltiesTitle, attribute: .top, relatedBy: .equal, toItem: mi15Score, attribute: .bottom, multiplier: 1.0, constant: 20.0)
+        view.addConstraints([leadingTitleConstraint, trailingTitleConstraint, topTitleConstraint])
+        
+        //Inits Text UI
+        penaltiesText = UITextView(frame: CGRect(x: labelX, y: 4940.0, width: labelWidth, height: textHeight))
+        penaltiesText.text = "Number of Penalty Discs in the southeast triangle:"
+        penaltiesText.font = UIFont.systemFont(ofSize: 20.0)
+        penaltiesText.isScrollEnabled = false
+        penaltiesText.isEditable = false
+        penaltiesText.isSelectable = false
+        scrollView.addSubview(penaltiesText)
+        let leadingTextConstraint01 = NSLayoutConstraint(item: penaltiesText, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint01 = NSLayoutConstraint(item: penaltiesText, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint01 = NSLayoutConstraint(item: penaltiesText, attribute: .top, relatedBy: .equal, toItem: penaltiesTitle, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint01, trailingTextConstraint01, topTextConstraint01])
+        
+        penaltiesSeg = UISegmentedControl(items: ["0", "1", "2", "3", "4", "5", "6"])
+        penaltiesSeg.frame = CGRect(x: segX, y: 5020.0, width: segWidth, height: segHeight)
+        penaltiesSeg.selectedSegmentIndex = 0
+        penaltiesSeg.addTarget(self, action: #selector(penaltiesSegAction), for: .valueChanged)
+        scrollView.addSubview(penaltiesSeg)
+        let leadingSegConstraint01 = NSLayoutConstraint(item: penaltiesSeg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint01 = NSLayoutConstraint(item: penaltiesSeg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint01 = NSLayoutConstraint(item: penaltiesSeg, attribute: .top, relatedBy: .equal, toItem: penaltiesText, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint01, trailingSegConstraint01, topSegConstraint01])
+        //Adds seg control to outlet
+        penaltiesSegControls.append(penaltiesSeg)
+        
+        //Inits Label UI for score
+        penaltiesScore = UILabel(frame: CGRect(x: labelX, y: 5060.0, width: labelWidth, height: labelHeight))
+        penaltiesScore.text = "Deductions: 0"
+        penaltiesScore.font = penaltiesScore.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(penaltiesScore)
+        //Constraints
+        let leadingScoreConstraint = NSLayoutConstraint(item: penaltiesScore, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingScoreConstraint = NSLayoutConstraint(item: penaltiesScore, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topScoreConstraint = NSLayoutConstraint(item: penaltiesScore, attribute: .top, relatedBy: .equal, toItem: penaltiesSeg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingScoreConstraint, trailingScoreConstraint, topScoreConstraint])
+    }
+    
+    //Penalties Outlet
+    var penaltiesSegControls: [UISegmentedControl] = []
+    
+    //Penalties Action
+    @objc func penaltiesSegAction(sender: UISegmentedControl) {
+        if let indexOfControl = penaltiesSegControls.index(of: sender) {
+            if (indexOfControl == 0) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.numberOfPenalties = 1
+                } else if (sender.selectedSegmentIndex == 2) {
+                    round.numberOfPenalties = 2
+                } else if (sender.selectedSegmentIndex == 3) {
+                    round.numberOfPenalties = 3
+                } else if (sender.selectedSegmentIndex == 4) {
+                    round.numberOfPenalties = 4
+                } else if (sender.selectedSegmentIndex == 5) {
+                    round.numberOfPenalties = 5
+                } else if (sender.selectedSegmentIndex == 6) {
+                    round.numberOfPenalties = 6
+                } else {
+                    round.numberOfPenalties = 0
+                }
+            }
+            penaltiesScore.text = "Score: \(round.penaltiesScore)"
             totalScore.text = "Score: \(round.getTotalScore())"
         }
     }

@@ -376,9 +376,13 @@ struct Round {
     }
     var M15_02Score = 0
     
-    //P01 - Penalty
+    //P01 - Penalties
     let deductionsPerPenalty = -3
-    var numberOfPenalties = 0
+    var numberOfPenalties = 0 {
+        didSet {
+            penaltiesScore = calculatePenalties(by: numberOfPenalties)
+        }
+    }
     var penaltiesScore = 0
     
     func calculatePenalties(by penalties: Int) -> Int {
