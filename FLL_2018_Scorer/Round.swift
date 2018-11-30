@@ -27,6 +27,13 @@ struct Round {
         case orange
     }
     
+    enum LanderPosition {
+        case none
+        case base
+        case northeastPlanetArea
+        case targetCircle
+    }
+    
     //M01 - Space Travel
     var isM01_01Done = false {
         didSet {
@@ -341,12 +348,33 @@ struct Round {
     var M14MeteoroidsInSideScore = 0
     
     //M15 - Lander Touch-Down
-    var isM15_01Done = false
-    var isM15_02Done = false
-    var isM15_03Done = false
-    var M15_01Score = 0
+    var isM15_01Done = false {
+        didSet {
+            if M15_02Status == LanderPosition.base {
+                M15_02Score = constants.M15InBase
+            } else if (M15_02Status == LanderPosition.northeastPlanetArea) && (isM15_01Done == true) {
+                M15_02Score = constants.M15InNortheastPlanetArea
+            } else if (M15_02Status == LanderPosition.targetCircle) && (isM15_01Done == true) {
+                M15_02Score = constants.M15InTargetCircle
+            } else {
+                M15_02Score = 0
+            }
+        }
+    }
+    var M15_02Status = LanderPosition.none {
+        didSet {
+            if M15_02Status == LanderPosition.base {
+                M15_02Score = constants.M15InBase
+            } else if (M15_02Status == LanderPosition.northeastPlanetArea) && (isM15_01Done == true) {
+                M15_02Score = constants.M15InNortheastPlanetArea
+            } else if (M15_02Status == LanderPosition.targetCircle) && (isM15_01Done == true) {
+                M15_02Score = constants.M15InTargetCircle
+            } else {
+                M15_02Score = 0
+            }
+        }
+    }
     var M15_02Score = 0
-    var M15_03Score = 0
     
     //P01 - Penalty
     let deductionsPerPenalty = -3
@@ -358,7 +386,8 @@ struct Round {
     }
     
     mutating func calculateTotalScore() {
-        totalScore = M01_01Score + M01_02Score + M01_03Score + M02_01Score + M02_02Score + M03_01Score + M03_02Score + M04_01Score + M05_01Score + M05_02Score + M05_03Score + M05_04Score + M06_01Score + M06_02Score + M06_03Score + M07_01Score + M08_01Score + M09_01Score + M10_01Score + M11_01Score + M12_01Score + M13_01Score + M14MeteoroidsInSideScore + M14MeteoroidsInCenterScore + M15_01Score + M15_02Score + M15_03Score + calculatePenalties(by: numberOfPenalties)
+        totalScore = M01_01Score + M01_02Score + M01_03Score + M02_01Score + M02_02Score + M03_01Score + M03_02Score + M04_01Score + M05_01Score + M05_02Score + M05_03Score + M05_04Score + M06_01Score + M06_02Score + M06_03Score + M07_01Score + M08_01Score + M09_01Score + M10_01Score + M11_01Score + M12_01Score + M13_01Score + M14MeteoroidsInSideScore + M14MeteoroidsInCenterScore + M15_02Score
+            + calculatePenalties(by: numberOfPenalties)
     }
     
     mutating func getTotalScore() -> Int {
@@ -412,5 +441,9 @@ struct Constants {
     
     let M14InCenterScorePerMeteor = 12
     let M14InSideScorePerMeteor = 8
+    
+    let M15InBase = 16
+    let M15InNortheastPlanetArea = 20
+    let M15InTargetCircle = 22
 }
 

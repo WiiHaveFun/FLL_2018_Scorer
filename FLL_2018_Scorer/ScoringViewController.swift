@@ -47,6 +47,7 @@ class ScoringViewController: UIViewController {
         initM12()
         initM13()
         initM14()
+        initM15()
     }
     
     /*Initializing Mission UI*/
@@ -1512,6 +1513,119 @@ class ScoringViewController: UIViewController {
                 }
             }
             mi14Score.text = "Score: \(round.M14MeteoroidsInCenterScore + round.M14MeteoroidsInSideScore )"
+            totalScore.text = "Score: \(round.getTotalScore())"
+        }
+    }
+    
+    //M015 Lander Touch-Down
+    var mi15Title: UILabel!
+    var mi15_01Text: UITextView!
+    var mi15_01Seg: UISegmentedControl!
+    var mi15_02Text: UITextView!
+    var mi15_02Seg: UISegmentedControl!
+    var mi15Score: UILabel!
+    
+    func initM15() {
+        //Inits Label UI
+        mi15Title = UILabel(frame: CGRect(x: labelX, y: 4540.0, width: labelWidth, height: labelHeight))
+        mi15Title.text = "M15 - Lander Touch-Down"
+        mi15Title.font = mi15Title.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi15Title)
+        //Constraints
+        let leadingTitleConstraint = NSLayoutConstraint(item: mi15Title, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTitleConstraint = NSLayoutConstraint(item: mi15Title, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTitleConstraint = NSLayoutConstraint(item: mi15Title, attribute: .top, relatedBy: .equal, toItem: mi14Score, attribute: .bottom, multiplier: 1.0, constant: 20.0)
+        view.addConstraints([leadingTitleConstraint, trailingTitleConstraint, topTitleConstraint])
+        
+        //Inits Text UI
+        mi15_01Text = UITextView(frame: CGRect(x: labelX, y: 4590.0, width: labelWidth, height: textHeight))
+        mi15_01Text.text = "Lander is intact and touching the Mat"
+        mi15_01Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi15_01Text.isScrollEnabled = false
+        mi15_01Text.isEditable = false
+        mi15_01Text.isSelectable = false
+        scrollView.addSubview(mi15_01Text)
+        let leadingTextConstraint01 = NSLayoutConstraint(item: mi15_01Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint01 = NSLayoutConstraint(item: mi15_01Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint01 = NSLayoutConstraint(item: mi15_01Text, attribute: .top, relatedBy: .equal, toItem: mi15Title, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint01, trailingTextConstraint01, topTextConstraint01])
+        
+        mi15_01Seg = UISegmentedControl(items: ["No", "Yes"])
+        mi15_01Seg.frame = CGRect(x: segX, y: 4670.0, width: segWidth, height: segHeight)
+        mi15_01Seg.selectedSegmentIndex = 0
+        mi15_01Seg.addTarget(self, action: #selector(mi15SegAction), for: .valueChanged)
+        scrollView.addSubview(mi15_01Seg)
+        let leadingSegConstraint01 = NSLayoutConstraint(item: mi15_01Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 244.0)
+        let trailingSegConstraint01 = NSLayoutConstraint(item: mi15_01Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 244.0)
+        let topSegConstraint01 = NSLayoutConstraint(item: mi15_01Seg, attribute: .top, relatedBy: .equal, toItem: mi15_01Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint01, trailingSegConstraint01, topSegConstraint01])
+        //Adds seg control to outlet
+        mi15SegControls.append(mi15_01Seg)
+        
+        //Inits Text UI
+        mi15_02Text = UITextView(frame: CGRect(x: labelX, y: 4710.0, width: labelWidth, height: textHeight))
+        mi15_02Text.text = "Lander is completely in:"
+        mi15_02Text.font = UIFont.systemFont(ofSize: 20.0)
+        mi15_02Text.isScrollEnabled = false
+        mi15_02Text.isEditable = false
+        mi15_02Text.isSelectable = false
+        scrollView.addSubview(mi15_02Text)
+        let leadingTextConstraint02 = NSLayoutConstraint(item: mi15_02Text, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingTextConstraint02 = NSLayoutConstraint(item: mi15_02Text, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topTextConstraint02 = NSLayoutConstraint(item: mi15_02Text, attribute: .top, relatedBy: .equal, toItem: mi15_01Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingTextConstraint02, trailingTextConstraint02, topTextConstraint02])
+        
+        //Inits SegControls UI
+        mi15_02Seg = UISegmentedControl(items: ["None", "Base", "Northeast Planet Area", "Target Circle"])
+        //Special frame for quadruple segmented control
+        mi15_02Seg.frame = CGRect(x: segX - segWidth / 2, y: 4790.0, width: segWidth * 2, height: segHeight)
+        mi15_02Seg.selectedSegmentIndex = 0
+        mi15_02Seg.addTarget(self, action: #selector(mi15SegAction), for: .valueChanged)
+        scrollView.addSubview(mi15_02Seg)
+        //constant is changed for quadruple segmented control
+        let leadingSegConstraint02 = NSLayoutConstraint(item: mi15_02Seg, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 104.0)
+        let trailingSegConstraint02 = NSLayoutConstraint(item: mi15_02Seg, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 104.0)
+        let topSegConstraint02 = NSLayoutConstraint(item: mi15_02Seg, attribute: .top, relatedBy: .equal, toItem: mi15_02Text, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingSegConstraint02, trailingSegConstraint02, topSegConstraint02])
+        //Adds seg control to outlet
+        mi15SegControls.append(mi15_02Seg)
+        
+        //Inits Label UI for score
+        mi15Score = UILabel(frame: CGRect(x: labelX, y: 4830.0, width: labelWidth, height: labelHeight))
+        mi15Score.text = "Score: 0"
+        mi15Score.font = mi15Score.font.withSize(CGFloat(labelFontSize))
+        scrollView.addSubview(mi15Score)
+        //Constraints
+        let leadingScoreConstraint = NSLayoutConstraint(item: mi15Score, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 10.0)
+        let trailingScoreConstraint = NSLayoutConstraint(item: mi15Score, attribute: .trailing, relatedBy: .lessThanOrEqual, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 10.0)
+        let topScoreConstraint = NSLayoutConstraint(item: mi15Score, attribute: .top, relatedBy: .equal, toItem: mi15_02Seg, attribute: .bottom, multiplier: 1.0, constant: 10.0)
+        view.addConstraints([leadingScoreConstraint, trailingScoreConstraint, topScoreConstraint])
+    }
+    
+    //Mission 15 Outlet
+    var mi15SegControls: [UISegmentedControl] = []
+    
+    //Mission 15 Action
+    @objc func mi15SegAction(sender: UISegmentedControl) {
+        if let indexOfControl = mi15SegControls.index(of: sender) {
+            if (indexOfControl == 0) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.isM15_01Done = true
+                } else {
+                    round.isM15_01Done = false
+                }
+            } else if (indexOfControl == 1) {
+                if (sender.selectedSegmentIndex == 1) {
+                    round.M15_02Status = .base
+                } else if (sender.selectedSegmentIndex == 2) {
+                    round.M15_02Status = .northeastPlanetArea
+                } else if (sender.selectedSegmentIndex == 3) {
+                    round.M15_02Status = .targetCircle
+                } else {
+                    round.M15_02Status = .none
+                }
+            }
+            //mi15Score.text = "Score: \(round.M15_01Score + round.M15_02Score )"
             totalScore.text = "Score: \(round.getTotalScore())"
         }
     }
