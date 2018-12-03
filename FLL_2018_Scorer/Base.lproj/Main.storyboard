@@ -28,15 +28,29 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5tS-YT-Qm3">
                                 <rect key="frame" x="0.0" y="20" width="768" height="918"/>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O8K-BU-nPS">
+                                <rect key="frame" x="24" y="941" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="2cK-WN-BJi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="Reset"/>
+                                <connections>
+                                    <action selector="reset:" destination="9pv-A4-QxB" eventType="touchUpInside" id="R4w-qz-Mr0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="PQr-Ze-W5v" firstAttribute="trailing" secondItem="O8K-BU-nPS" secondAttribute="trailing" constant="644" id="6KC-9Y-8Cl"/>
                             <constraint firstItem="SGq-Sc-5zA" firstAttribute="bottom" secondItem="PQr-Ze-W5v" secondAttribute="bottom" id="FoC-ja-1gn"/>
+                            <constraint firstItem="O8K-BU-nPS" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" constant="24" id="H79-F8-GfI"/>
                             <constraint firstItem="PQr-Ze-W5v" firstAttribute="trailing" secondItem="5tS-YT-Qm3" secondAttribute="trailing" id="JOQ-EF-9hZ"/>
                             <constraint firstItem="5tS-YT-Qm3" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="R4e-5N-oOy"/>
                             <constraint firstItem="SGq-Sc-5zA" firstAttribute="top" secondItem="5tS-YT-Qm3" secondAttribute="bottom" id="bLW-hw-3U9"/>
                             <constraint firstItem="SGq-Sc-5zA" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="g8D-cX-GF7"/>
+                            <constraint firstItem="O8K-BU-nPS" firstAttribute="centerY" secondItem="SGq-Sc-5zA" secondAttribute="centerY" id="puC-Eg-LfI"/>
                             <constraint firstItem="5tS-YT-Qm3" firstAttribute="top" secondItem="PQr-Ze-W5v" secondAttribute="top" id="yZ1-jN-o58"/>
                             <constraint firstItem="SGq-Sc-5zA" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="z6V-z1-Gun"/>
                         </constraints>
@@ -50,7 +64,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="-320"/>
+            <point key="canvasLocation" x="750" y="-320.5078125"/>
         </scene>
         <!--Past Rounds-->
         <scene sceneID="wg7-f3-ORb">

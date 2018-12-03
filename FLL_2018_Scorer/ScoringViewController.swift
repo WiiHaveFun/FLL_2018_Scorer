@@ -29,6 +29,73 @@ class ScoringViewController: UIViewController {
     //Outlet to total score label
     @IBOutlet weak var totalScore: UILabel!
     
+    @IBAction func reset(_ sender: UIButton) {
+        mi01_01Seg.selectedSegmentIndex = 0
+        mi01_02Seg.selectedSegmentIndex = 0
+        mi01_03Seg.selectedSegmentIndex = 0
+        
+        mi02_01Seg.selectedSegmentIndex = 0
+        mi02_02Seg.selectedSegmentIndex = 0
+        
+        mi03_01Seg.selectedSegmentIndex = 0
+        mi03_02Seg.selectedSegmentIndex = 0
+        
+        mi04_01Seg.selectedSegmentIndex = 0
+        mi04_02Seg.selectedSegmentIndex = 0
+        
+        mi05_01Seg.selectedSegmentIndex = 0
+        mi05_02Seg.selectedSegmentIndex = 0
+        mi05_03Seg.selectedSegmentIndex = 0
+        mi05_04Seg.selectedSegmentIndex = 0
+        
+        mi06_01Seg.selectedSegmentIndex = 0
+        mi06_02Seg.selectedSegmentIndex = 0
+        mi06_03Seg.selectedSegmentIndex = 0
+        
+        mi07_01Seg.selectedSegmentIndex = 0
+        
+        mi08_01Seg.selectedSegmentIndex = 0
+        
+        mi09_01Seg.selectedSegmentIndex = 0
+        
+        mi10_01Seg.selectedSegmentIndex = 0
+        
+        mi11_01Seg.selectedSegmentIndex = 0
+        
+        mi12_01Seg.selectedSegmentIndex = 0
+        
+        mi13_01Seg.selectedSegmentIndex = 0
+        
+        mi14_01Seg.selectedSegmentIndex = 0
+        mi14_02Seg.selectedSegmentIndex = 0
+        
+        mi15_01Seg.selectedSegmentIndex = 0
+        mi15_02Seg.selectedSegmentIndex = 0
+        
+        penaltiesSeg.selectedSegmentIndex = 0
+        
+        round = Round()
+        
+        mi01Score.text = "Score: 0"
+        mi02Score.text = "Score: 0"
+        mi03Score.text = "Score: 0"
+        mi04Score.text = "Score: 0"
+        mi05Score.text = "Score: 0"
+        mi06Score.text = "Score: 0"
+        mi07Score.text = "Score: 0"
+        mi08Score.text = "Score: 0"
+        mi09Score.text = "Score: 0"
+        mi10Score.text = "Score: 0"
+        mi11Score.text = "Score: 0"
+        mi12Score.text = "Score: 0"
+        mi13Score.text = "Score: 0"
+        mi14Score.text = "Score: 0"
+        mi15Score.text = "Score: 0"
+        penaltiesScore.text = "Deductions: 0"
+        
+        totalScore.text = "Score: 0"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.contentSize = CGSize(width: 768, height: 5200)

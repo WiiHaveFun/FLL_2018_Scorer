@@ -398,6 +398,53 @@ struct Round {
         calculateTotalScore()
         return totalScore
     }
+    
+    mutating func reset() {
+        M01_01Score = 0
+        M01_02Score = 0
+        M01_03Score = 0
+        
+        M02_01Score = 0
+        M02_02Score = 0
+        
+        M03_01Score = 0
+        M03_02Score = 0
+        
+        M04_01Score = 0
+        
+        M05_01Score = 0
+        
+        M05_02Score = 0
+        
+        M05_03Score = 0
+        
+        M05_04Score = 0
+        
+        M06_01Score = 0
+        M06_02Score = 0
+        M06_03Score = 0
+        
+        M07_01Score = 0
+        
+        M08_01Score = 0
+        
+        M09_01Score = 0
+        
+        M10_01Score = 0
+        
+        M11_01Score = 0
+        
+        M12_01Score = 0
+        
+        M13_01Score = 0
+        
+        M14MeteoroidsInSideScore = 0
+        M14MeteoroidsInCenterScore = 0
+        
+        M15_02Score = 0
+        
+        penaltiesScore = 0
+    }
 }
 
 struct Constants {
